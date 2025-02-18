@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\BandsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-Route::apiResource('posts', PostController::class);
+Route::apiResource('bands', BandsController::class);

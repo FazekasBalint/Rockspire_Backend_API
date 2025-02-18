@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Models\Bands;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+
+class BandsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Post::all();
+        return response()->json(Band::all());
     }
 
     /**
@@ -21,24 +22,26 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'required|max:255',
-            'body'=>'required'
+            'name' => 'required|string|max:255',
+            'image_url' => 'nullable|string',
+            'description' => 'nullable|string',
+            'day_id' => 'required|exists:days,id',
+            'duration' => 'required',
         ]);
-        return 'ok';
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Bands $bands)
     {
-        //
+        return response()->json($band);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdateBandsRequest $request, Bands $bands)
     {
         //
     }
@@ -46,7 +49,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Bands $bands)
     {
         //
     }
