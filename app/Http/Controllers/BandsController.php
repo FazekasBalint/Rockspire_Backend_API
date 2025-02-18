@@ -42,7 +42,17 @@ class BandsController extends Controller
      */
     public function update(UpdateBandsRequest $request, Bands $bands)
     {
-        //
+        $request->validate([
+            'name' => 'string|max:255',
+            'image_url' => 'nullable|string',
+            'description' => 'nullable|string',
+            'day_id' => 'exists:days,id',
+            'duration' => 'required',
+        ]);
+
+        $band->update($request->all());
+
+        return response()->json($band);
     }
 
     /**
@@ -50,6 +60,7 @@ class BandsController extends Controller
      */
     public function destroy(Bands $bands)
     {
-        //
+        $band->delete();
+        return response()->json(null, 204);
     }
 }
