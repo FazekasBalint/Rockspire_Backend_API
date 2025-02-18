@@ -14,7 +14,6 @@ class Bands extends Model
         'name',
         'image_url',
         'description',
-        'day_id',
         'duration'
     ];
 }

@@ -13,7 +13,7 @@ class BandsController extends Controller
      */
     public function index()
     {
-        return response()->json(Band::all());
+        return response()->json(Bands::all());
     }
 
     /**
@@ -25,7 +25,6 @@ class BandsController extends Controller
             'name' => 'required|string|max:255',
             'image_url' => 'nullable|string',
             'description' => 'nullable|string',
-            'day_id' => 'required|exists:days,id',
             'duration' => 'required',
         ]);
     }
