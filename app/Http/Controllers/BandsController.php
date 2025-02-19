@@ -34,13 +34,13 @@ class BandsController extends Controller
      */
     public function show(Bands $bands)
     {
-        return response()->json($band);
+        return response()->json($bands);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBandsRequest $request, Bands $bands)
+    public function update($request, Bands $bands)
     {
         $request->validate([
             'name' => 'string|max:255',
@@ -50,17 +50,17 @@ class BandsController extends Controller
             'duration' => 'required',
         ]);
 
-        $band->update($request->all());
+        $bands->update($request->all());
 
-        return response()->json($band);
+        return response()->json($bands);
     }
 
-    /**
+    /**s
      * Remove the specified resource from storage.
      */
     public function destroy(Bands $bands)
     {
-        $band->delete();
+        $bands->delete();
         return response()->json(null, 204);
     }
 }
