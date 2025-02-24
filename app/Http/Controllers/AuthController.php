@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -40,7 +41,7 @@ class AuthController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        // $user->tokens()->delete();
+        //$user->tokens()->delete();
         $user->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out'], 200);
     }
