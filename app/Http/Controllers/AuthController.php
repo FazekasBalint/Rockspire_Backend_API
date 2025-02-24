@@ -8,47 +8,41 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
-       $fields=$request->validate([
-            'name'=>'required|max:255',
-            'email'=>'required|email|unique:users',
-            'password'=>'required|confirmed'
-        ]);
-       $user= User::create($fields);
+    public function register(RegisterUserRequest $request){
+        $validated = $request->validated();
 
-    $token=$user->createToken($request->name);
+        $user = User::create($validated);
+        $token = $user->createToken('authToken')->plainTextToken;
 
-    return [
-        'user'=>$user,
-        'token'=>$token->plainTextToken
-    ];
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
 
-    public function login(Request $request){
-        $request->validate([
-            'name'=>'required|exists:users',
-            'password'=>'required'
-        ]);
-        $user=User::where('name',$request->name)->first();
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return[
-                'message'=>"The credentials are incorrect"
-            ];
+    public function login(LoginUserRequest $request){
+        $validated = $request->validated();
+        if (!Auth::attempt($validated)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $token=$user->createToken($user->name);
+        /** @var User $user */
+        $user = Auth::user();
+        $token = $user->createToken('authToken',['*'],now()->addMinutes(30))->plainTextToken;
 
-        return [
-            'user'=>$user,
-            'token'=>$token->plainTextToken
-        ];
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ], 200);
     }
-    public function logout(Request $request){
-        $request->user()->tokens()->delete();
 
-        return[
-            'message'=>'You are logged out'
-        ];
+    public function logout() {
+        /** @var User $user */
+        $user = Auth::user();
+
+        // $user->tokens()->delete();
+        $user->currentAccessToken()->delete();
+        return response()->json(['message' => 'Logged out'], 200);
     }
 
 
