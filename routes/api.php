@@ -2,10 +2,16 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BandsController;
+use App\Http\Controllers\CampingController;
+use App\Http\Controllers\CampingOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //Public routes
+Route::post('/camping-orders', [CampingOrderController::class, 'store']);
+Route::get('/campings', [CampingController::class, 'index']);
+Route::get('/campings/{id}', [CampingController::class, 'show']);
+
 
 //Autenthication
 Route::post('/register',[AuthController::class,'register']);
@@ -19,5 +25,17 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    // Camping Orders
+    Route::get('/camping-orders', [CampingOrderController::class, 'index']);
+    Route::get('/camping-orders/{id}', [CampingOrderController::class, 'show']);
+    Route::delete('/camping-orders/{id}', [CampingOrderController::class, 'destroy']);
+
+    // Camping
+    Route::post('/campings', [CampingController::class, 'store']);
+    Route::put('/campings/{id}', [CampingController::class, 'update']);
+    Route::delete('/campings/{id}', [CampingController::class, 'destroy']);
+
+
 });
 
