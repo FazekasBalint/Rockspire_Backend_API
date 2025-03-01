@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('camping', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->decimal('price', 10, 2);
+            $table->integer('availability');
             $table->timestamps();
         });
     }

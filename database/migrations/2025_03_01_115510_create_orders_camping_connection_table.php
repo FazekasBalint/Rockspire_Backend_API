@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('orders_camping_connection', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('order_id')->constrained('camping_orders')->onDelete('cascade');
+            $table->foreignId('camping_id')->constrained('camping')->onDelete('cascade');
+            $table->integer('quantity');
+            $table->decimal('totalprice', 10, 2);
         });
     }
 
