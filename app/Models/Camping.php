@@ -12,6 +12,8 @@ class Camping extends Model
 
     protected $fillable = ['type', 'price', 'availability'];
 
+    protected $table = 'camping';
+
     public function orders()
     {
         return $this->belongsToMany(CampingOrder::class, 'orders_camping_connection')

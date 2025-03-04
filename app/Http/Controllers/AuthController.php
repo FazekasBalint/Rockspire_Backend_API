@@ -14,6 +14,7 @@ class AuthController extends Controller
 
         $user = User::create($validated);
         $token = $user->createToken('authToken')->plainTextToken;
+        $validated['password'] = bcrypt($validated['password']);
 
         return response()->json([
             'user' => $user,
