@@ -54,11 +54,15 @@ class CampingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Camping $camping)
+    public function destroy($id)
     {
-        $camping = Camping::findOrFail($camping);
-        $camping->delete();
+        $camping = Camping::find($id);
 
+        if (!$camping) {
+            return response()->json(['message' => 'Camping not found!'], 404);
+        }
+
+        $camping->delete();
         return response()->json(['message' => 'Camping deleted successfully!']);
     }
 }

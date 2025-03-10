@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Camping;
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class CampingPolicy
+class TicketPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class CampingPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Camping $camping): bool
+    public function view(User $user, Ticket $ticket): bool
     {
         return false;
     }
@@ -35,7 +35,7 @@ class CampingPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Camping $camping): bool
+    public function update(User $user, Ticket $ticket): bool
     {
         return false;
     }
@@ -43,7 +43,7 @@ class CampingPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Camping $camping): bool
+    public function delete(User $user, Ticket $ticket): bool
     {
         return $user->is_admin;
     }
@@ -51,7 +51,7 @@ class CampingPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Camping $camping): bool
+    public function restore(User $user, Ticket $ticket): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class CampingPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Camping $camping): bool
+    public function forceDelete(User $user, Ticket $ticket): bool
     {
         return false;
     }

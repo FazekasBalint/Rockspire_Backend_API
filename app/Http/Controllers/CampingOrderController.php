@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCampingOrderRequest;
 use App\Http\Requests\UpdateCampingOrderRequest;
 use App\Models\Camping;
 use App\Models\OrdersCampingConnection;
+use Illuminate\Container\Attributes\Auth;
 
 class CampingOrderController extends Controller
 {
@@ -15,7 +16,8 @@ class CampingOrderController extends Controller
      */
     public function index()
     {
-        return response()->json(CampingOrder::with('campings')->get());
+        $orders = CampingOrder::all();
+        return response()->json($orders);
     }
 
     /**
@@ -23,20 +25,17 @@ class CampingOrderController extends Controller
      */
     public function store(StoreCampingOrderRequest $request)
     {
-        $order = CampingOrder::create(['user_id' => $request->user_id]);
-
-        foreach ($request->campings as $camping) {
-            $campingItem = Camping::findOrFail($camping['camping_id']);
-
-            OrdersCampingConnection::create([
-                'order_id' => $order->id,
-                'camping_id' => $campingItem->id,
-                'quantity' => $camping['quantity'],
-                'totalprice' => $camping['quantity'] * $campingItem->price,
-            ]);
+        /** @var User $user */
+        $user = Auth::user();
+        if ($user->cannot('create', CampingOrder::class)) {
+            return response()->json(['message' => 'You are not authorized to create a camping order'], 403);
         }
 
-        return response()->json(['message' => 'Camping order created successfully', 'order' => $order], 201);
+        $validated = $request->validated();
+        $validated['user_id'] = $user->id;
+        $order = CampingOrder::create($validated);
+
+        return response()->json($order, 201);
     }
 
     /**
@@ -44,7 +43,11 @@ class CampingOrderController extends Controller
      */
     public function show(CampingOrder $campingOrder)
     {
-        $order = CampingOrder::with('campings')->findOrFail($campingOrder);
+        $order = CampingOrder::find($campingOrder);
+        if (!$order) {
+            return response()->json(['message' => 'Camping order not found'], 404);
+        }
+
         return response()->json($order);
     }
 
@@ -53,10 +56,13 @@ class CampingOrderController extends Controller
      */
     public function destroy(CampingOrder $campingOrder)
     {
-        $order = CampingOrder::findOrFail($campingOrder);
-        $order->campings()->detach();
-        $order->delete();
+        /** @var User $user */
+        $user = Auth::user();
+        if ($user->cannot('delete', $campingOrder)) {
+            return response()->json(['message' => 'You are not authorized to delete this order'], 403);
+        }
 
-        return response()->json(['message' => 'Camping order deleted successfully!']);
+        $campingOrder->delete();
+        return response()->noContent();
     }
 }
