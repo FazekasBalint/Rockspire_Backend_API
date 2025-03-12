@@ -25,7 +25,7 @@ class TicketOrder extends Model
      */
     public function tickets()
     {
-        return $this->belongsToMany(Ticket::class, 'tickets_orders_connection')
+        return $this->belongsToMany(Ticket::class, 'ticket_orders_connection')
                     ->withPivot('quantity', 'totalprice');
     }
 }

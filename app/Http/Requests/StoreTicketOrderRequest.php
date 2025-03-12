@@ -22,8 +22,9 @@ class StoreTicketOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'tickets' => 'required|array',
+            'tickets.*.ticket_id' => 'required|exists:tickets,id',
+            'tickets.*.quantity' => 'required|integer|min:1'
         ];
     }
 }

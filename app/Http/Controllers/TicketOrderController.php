@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\TicketOrder;
 use App\Http\Requests\StoreTicketOrderRequest;
 use App\Http\Requests\UpdateTicketOrderRequest;
-use Illuminate\Container\Attributes\Auth;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\Auth;
 
 class TicketOrderController extends Controller
 {
@@ -24,30 +25,60 @@ class TicketOrderController extends Controller
      */
     public function store(StoreTicketOrderRequest $request)
     {
-        /** @var User $user */
         $user = Auth::user();
-        if ($user->cannot('create', TicketOrder::class)) {
-            return response()->json(['message' => 'You are not authorized to create a ticket order'], 403);
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
-
         $validated = $request->validated();
-        $validated['user_id'] = $user->id;
-        $order = TicketOrder::create($validated);
+        $order = TicketOrder::create(['user_id' => $user->id]);
+        foreach ($validated['tickets'] as $ticket) {
+            $ticketModel = Ticket::find($ticket['ticket_id']);
 
-        return response()->json($order, 201);
+            if (!$ticketModel) {
+                return response()->json(['message' => 'Invalid ticket ID'], 400);
+            }
+
+            $order->tickets()->attach($ticket['ticket_id'], [
+                'quantity' => $ticket['quantity'],
+                'totalprice' => $ticket['quantity'] * $ticketModel->price
+            ]);
+        }
+        return response()->json(['message' => 'Ticket order created successfully', 'order' => $order], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(TicketOrder $ticketOrder)
+    public function show($userId)
     {
-        $order = TicketOrder::find($ticketOrder);
-        if (!$order) {
-            return response()->json(['message' => 'Ticket order not found'], 404);
+        $ticketOrders = TicketOrder::with(['tickets' => function ($query) {
+            $query->withPivot('quantity', 'totalprice');
+        }])->where('user_id', $userId)->get();
+
+        if ($ticketOrders->isEmpty()) {
+            return response()->json(['message' => 'No ticket orders found for this user.'], 404);
         }
 
-        return response()->json($order);
+        $formattedData = $ticketOrders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'user_id' => $order->user_id,
+                'created_at' => $order->created_at,
+                'updated_at' => $order->updated_at,
+                'tickets' => $order->tickets->map(function ($ticket) {
+                    return [
+                        'id' => $ticket->id,
+                        'type' => $ticket->type,
+                        'price' => $ticket->price,
+                        'availability' => $ticket->availability,
+                        'quantity' => $ticket->pivot->quantity,
+                        'totalprice' => $ticket->pivot->totalprice
+                    ];
+                })
+            ];
+        });
+
+        return response()->json($formattedData);
     }
     /**
      * Remove the specified resource from storage.

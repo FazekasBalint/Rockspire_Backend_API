@@ -6,8 +6,7 @@ use App\Models\CampingOrder;
 use App\Http\Requests\StoreCampingOrderRequest;
 use App\Http\Requests\UpdateCampingOrderRequest;
 use App\Models\Camping;
-use App\Models\OrdersCampingConnection;
-use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class CampingOrderController extends Controller
 {
@@ -27,29 +26,60 @@ class CampingOrderController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-        if ($user->cannot('create', CampingOrder::class)) {
-            return response()->json(['message' => 'You are not authorized to create a camping order'], 403);
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
-
         $validated = $request->validated();
-        $validated['user_id'] = $user->id;
-        $order = CampingOrder::create($validated);
-
-        return response()->json($order, 201);
+        $order = CampingOrder::create(['user_id' => $user->id]);
+        foreach ($validated['campings'] as $camping) {
+            $campingItem = Camping::find($camping['camping_id']);
+            if (!$campingItem) {
+                return response()->json(['message' => 'Invalid camping ID'], 400);
+            }
+            $order->campings()->attach($camping['camping_id'], [
+                'quantity' => $camping['quantity'],
+                'totalprice' => $camping['quantity'] * $campingItem->price,
+            ]);
+        }
+        return response()->json([
+            'message' => 'Camping order created successfully',
+            'order' => $order
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(CampingOrder $campingOrder)
+    public function show($userId)
     {
-        $order = CampingOrder::find($campingOrder);
-        if (!$order) {
-            return response()->json(['message' => 'Camping order not found'], 404);
+        $campingOrders = CampingOrder::with(['campings' => function ($query) {
+            $query->withPivot('quantity', 'totalprice');
+        }])->where('user_id', $userId)->get();
+        if ($campingOrders->isEmpty()) {
+            return response()->json(['message' => 'No camping orders found for this user.'], 404);
         }
+        $formattedData = $campingOrders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'user_id' => $order->user_id,
+                'created_at' => $order->created_at,
+                'updated_at' => $order->updated_at,
+                'campings' => $order->campings->map(function ($camping) {
+                    return [
+                        'id' => $camping->id,
+                        'type' => $camping->type,
+                        'price' => $camping->price,
+                        'availability' => $camping->availability,
+                        'quantity' => $camping->pivot->quantity,
+                        'totalprice' => $camping->pivot->totalprice
+                    ];
+                })
+            ];
+        });
 
-        return response()->json($order);
+        return response()->json($formattedData);
     }
+
 
     /**
      * Remove the specified resource from storage.

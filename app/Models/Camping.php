@@ -16,7 +16,7 @@ class Camping extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(CampingOrder::class, 'orders_camping_connection')
+        return $this->belongsToMany(CampingOrder::class, 'orders_camping_connection','order_id', 'camping_id')
                     ->withPivot('quantity', 'totalprice');
     }
 }

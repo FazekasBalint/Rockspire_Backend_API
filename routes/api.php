@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/camping-orders', [CampingOrderController::class, 'store']);
 Route::get('/campings', [CampingController::class, 'index']);
 Route::get('/campings/{id}', [CampingController::class, 'show']);
+Route::get('/tickets', [TicketController::class, 'index']);
 
 
 //Autenthication
@@ -31,7 +32,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     // Camping Orders
     Route::get('/camping-orders', [CampingOrderController::class, 'index']);
     Route::get('/camping-orders/{id}', [CampingOrderController::class, 'show']);
-    Route::post('/camping-orders', [TicketOrderController::class, 'store']);
+    Route::post('/camping-orders', [CampingOrderController::class, 'store']);
     Route::delete('/camping-orders/{id}', [CampingOrderController::class, 'destroy']);
 
     // Camping
@@ -42,13 +43,12 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
 
     //Ticket Orders
     Route::get('/ticket-orders', [TicketOrderController::class, 'index']);
-    Route::get('/ticket-orders/{id}', [CampingOrderController::class, 'show']);
+    Route::get('/ticket-orders/{id}', [TicketOrderController::class, 'show']);
     Route::post('/ticket-orders', [TicketOrderController::class, 'store']);
     Route::delete('/ticket-orders/{id}', [TicketOrderController::class, 'destroy']);
 
 
     //Tickets
-    Route::get('/tickets', [TicketController::class, 'index']);
     Route::post('/tickets', [TicketController::class, 'store']);
     Route::put('/tickets/{id}', [TicketController::class, 'update']);
     Route::delete('/tickets/{id}', [TicketController::class, 'destroy']);

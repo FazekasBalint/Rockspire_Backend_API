@@ -63,10 +63,17 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $id)
+    public function destroy($id)
     {
         $ticket = Ticket::find($id);
+        if (!$ticket) {
+            return response()->json(['message' => 'Ticket not found'], 404);
+        }
+        $ticketOrders = $ticket->orders;
+        foreach ($ticketOrders as $order) {
+            $order->delete();
+        }
         $ticket->delete();
-        return response()->json(['message' => 'Ticket deleted']);
+        return response()->json(['message' => 'Ticket and related orders deleted']);
     }
 }

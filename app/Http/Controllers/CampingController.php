@@ -57,12 +57,13 @@ class CampingController extends Controller
     public function destroy($id)
     {
         $camping = Camping::find($id);
-
         if (!$camping) {
             return response()->json(['message' => 'Camping not found!'], 404);
         }
-
+        foreach ($camping->orders as $order) {
+            $order->delete();
+        }
         $camping->delete();
-        return response()->json(['message' => 'Camping deleted successfully!']);
+        return response()->json(['message' => 'Camping and related orders deleted']);
     }
 }
