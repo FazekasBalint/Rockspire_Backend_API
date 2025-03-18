@@ -4,15 +4,21 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BandsController;
 use App\Http\Controllers\CampingController;
 use App\Http\Controllers\CampingOrderController;
+use App\Http\Controllers\DayController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TicketOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //Public routes
-Route::post('/camping-orders', [CampingOrderController::class, 'store']);
+Route::get('/days',[DayController::class, 'index']);
+Route::get('/days/{id}',[DayController::class, 'show']);
+
+
 Route::get('/campings', [CampingController::class, 'index']);
 Route::get('/campings/{id}', [CampingController::class, 'show']);
+
+
 Route::get('/tickets', [TicketController::class, 'index']);
 
 
@@ -53,5 +59,10 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::put('/tickets/{id}', [TicketController::class, 'update']);
     Route::delete('/tickets/{id}', [TicketController::class, 'destroy']);
 
+
+    //Days
+    Route::post('/days', [DayController::class, 'store']);
+    Route::put('/days/{id}', [DayController::class, 'update']);
+    Route::delete('/days/{id}', [DayController::class, 'destroy']);
 });
 

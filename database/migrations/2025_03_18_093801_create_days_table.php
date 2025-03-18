@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bands', function (Blueprint $table) {
+        Schema::create('days', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('image_url')->nullable();
-            $table->text('description')->nullable();
-            $table->foreignId('day_id')->constrained('days')->onDelete('cascade');
-            $table->time('duration');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->date('date');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bands');
+        Schema::dropIfExists('days');
     }
 };

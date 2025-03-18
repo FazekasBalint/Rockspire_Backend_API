@@ -17,4 +17,14 @@ class Ticket extends Model
         return $this->belongsToMany(TicketOrder::class, 'ticket_orders_connection')
                     ->withPivot('quantity', 'totalprice');
     }
+
+    /**
+     * The roles that belong to the Ticket
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function days()
+    {
+        return $this->belongsToMany(Day::class, 'days_tickets_connection');
+    }
 }
