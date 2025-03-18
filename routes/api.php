@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BandsController;
+use App\Http\Controllers\BandController;
 use App\Http\Controllers\CampingController;
 use App\Http\Controllers\CampingOrderController;
 use App\Http\Controllers\DayController;
@@ -20,6 +20,9 @@ Route::get('/campings/{id}', [CampingController::class, 'show']);
 
 
 Route::get('/tickets', [TicketController::class, 'index']);
+
+Route::get('/bands', [BandController::class, 'index']);
+Route::get('/bands/{id}', [BandController::class, 'show']);
 
 
 //Autenthication
@@ -64,5 +67,11 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post('/days', [DayController::class, 'store']);
     Route::put('/days/{id}', [DayController::class, 'update']);
     Route::delete('/days/{id}', [DayController::class, 'destroy']);
+
+
+    //Bands
+    Route::post('/bands', [BandController::class, 'store']);
+    Route::put('/bands/{id}', [BandController::class, 'update']);
+    Route::delete('/bands/{id}', [BandController::class, 'destroy']);
 });
 

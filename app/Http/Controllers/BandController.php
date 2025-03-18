@@ -13,7 +13,7 @@ class BandController extends Controller
      */
     public function index()
     {
-        //
+        return  response()->json(Band::all());
     }
 
     /**
@@ -21,7 +21,12 @@ class BandController extends Controller
      */
     public function store(StoreBandRequest $request)
     {
-        //
+        $band = Band::create($request->validated());
+
+        return response()->json([
+            'message' => 'Band created successfully!',
+            'band' => $band,
+        ], 201);
     }
 
     /**
@@ -29,7 +34,7 @@ class BandController extends Controller
      */
     public function show(Band $band)
     {
-        //
+        return response()->json(Band::findOrFail($band));
     }
 
     /**
@@ -37,7 +42,13 @@ class BandController extends Controller
      */
     public function update(UpdateBandRequest $request, Band $band)
     {
-        //
+        $band = Band::findOrFail($band);
+        $band->update($request->validated());
+
+        return response()->json([
+            'message' => 'Band updated successfully!',
+            'band' => $band,
+        ]);
     }
 
     /**
@@ -45,6 +56,7 @@ class BandController extends Controller
      */
     public function destroy(Band $band)
     {
-        //
+        $band->delete();
+        return response()->json(['message'=>'Band deleted succesfully']);
     }
 }

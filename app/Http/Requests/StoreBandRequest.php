@@ -22,7 +22,12 @@ class StoreBandRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'image_url' => 'required|url',
+            'logo_url' => 'required|url',
+            'description' => 'required|string',
+            'day_id' => 'required|exists:days,id',
+            'duration' => 'required|date_format:H:i:s',
         ];
     }
 }

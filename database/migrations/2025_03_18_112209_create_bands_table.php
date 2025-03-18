@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('bands', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('image_url');
+            $table->string('logo_url');
+            $table->text('description');
+            $table->foreignId('day_id')->constrained('days')->onDelete('cascade');
             $table->timestamps();
         });
     }
