@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Mail\SendMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Request;
 
 class AuthController extends Controller
 {
@@ -45,6 +48,14 @@ class AuthController extends Controller
         //$user->tokens()->delete();
         $user->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out'], 200);
+    }
+
+
+    public function sendEmail(Request $request){
+        $user=Auth::user();
+        $Nametext = $user->name;
+        Mail::to($user->email)->send(new SendMail($Nametext));
+        return response()->json(["error" => false, "message" => "Email succesfully sent."], 200);
     }
 
 

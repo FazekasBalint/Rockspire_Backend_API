@@ -10,6 +10,10 @@ use App\Http\Controllers\TicketOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+//Mail routes
+Route::post('/send-mail',[AuthController::class,'SendEmail']);
+
 //Public routes
 Route::get('/days',[DayController::class, 'index']);
 Route::get('/days/{id}',[DayController::class, 'show']);
