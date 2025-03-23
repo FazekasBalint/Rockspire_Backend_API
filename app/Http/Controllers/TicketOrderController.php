@@ -71,6 +71,7 @@ class TicketOrderController extends Controller
                         'type' => $ticket->type,
                         'price' => $ticket->price,
                         'availability' => $ticket->availability,
+                        'description' => $ticket->description,
                         'quantity' => $ticket->pivot->quantity,
                         'totalprice' => $ticket->pivot->totalprice
                     ];

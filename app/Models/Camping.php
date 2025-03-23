@@ -10,7 +10,7 @@ class Camping extends Model
     /** @use HasFactory<\Database\Factories\CampingFactory> */
     use HasFactory;
 
-    protected $fillable = ['type', 'price', 'availability'];
+    protected $fillable = ['type', 'price','description', 'availability'];
 
     protected $table = 'camping';
 

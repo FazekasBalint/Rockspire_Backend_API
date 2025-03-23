@@ -25,6 +25,7 @@ class StoreTicketRequest extends FormRequest
             'type' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'availability' => 'required|integer|min:0',
+            'description' => 'nullable|string',
         ];
     }
 }

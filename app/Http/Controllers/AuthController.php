@@ -53,6 +53,7 @@ class AuthController extends Controller
 
     public function sendEmail(Request $request){
         $user=Auth::user();
+
         $Nametext = $user->name;
         Mail::to($user->email)->send(new SendMail($Nametext));
         return response()->json(["error" => false, "message" => "Email succesfully sent."], 200);

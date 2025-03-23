@@ -70,6 +70,7 @@ class CampingOrderController extends Controller
                         'type' => $camping->type,
                         'price' => $camping->price,
                         'availability' => $camping->availability,
+                        'description' => $camping->description,
                         'quantity' => $camping->pivot->quantity,
                         'totalprice' => $camping->pivot->totalprice
                     ];
