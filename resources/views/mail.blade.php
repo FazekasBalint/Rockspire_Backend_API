@@ -52,12 +52,12 @@
 </head>
 <body>
     <div class="container">
-        <img src="{{ asset('public/logo.png') }}" alt="RockSpire Logo" class="logo">
         <div class="headline">RockSpire Fesztivál - Üdvözlünk!</div>
         <div class="content">
-            <p>Kedves !</p>
-            <p>Felkészültél az év legnagyobb rock bulijára? Gitárok zúgnak, a dobok dübörögnek, és a hangulat a csillagos égig ér!</p>
-            <p>Figyeld a weboldalunkat,mert több infó érkezik a fellépőkről, jegyekről és különleges ajánlatokról!</p>
+            <p>Kedves {{ $user->name }}</p>
+            <p>Köszönjük, hogy regisztráltál a RockSpire Fesztiválra! Mostantól első kézből értesülhetsz a legfrissebb információkról, fellépőkről és programokról.</p>
+            <p>A fesztivállal kapcsolatos részleteket és további tudnivalókat a weboldalunkon találod:</p>
+            <p>Ha bármilyen kérdésed van, fordulj hozzánk bizalommal!</p>
         </div>
         <div class="footer">
             {{ date('Y') }} RockSpire Fesztivál. Minden jog fenntartva.
