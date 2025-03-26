@@ -36,6 +36,10 @@ class CampingOrderController extends Controller
             if (!$campingItem) {
                 return response()->json(['message' => 'Invalid camping ID'], 400);
             }
+
+            $campingItem->availability -= $camping['quantity'];
+            $campingItem->save();
+
             $order->campings()->attach($camping['camping_id'], [
                 'quantity' => $camping['quantity'],
                 'totalprice' => $camping['quantity'] * $campingItem->price,

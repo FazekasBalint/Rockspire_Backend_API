@@ -38,6 +38,9 @@ class TicketOrderController extends Controller
                 return response()->json(['message' => 'Invalid ticket ID'], 400);
             }
 
+            $ticketModel->availability -= $ticket['quantity'];
+            $ticketModel->save();
+
             $order->tickets()->attach($ticket['ticket_id'], [
                 'quantity' => $ticket['quantity'],
                 'totalprice' => $ticket['quantity'] * $ticketModel->price
