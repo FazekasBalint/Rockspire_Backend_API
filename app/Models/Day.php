@@ -13,13 +13,13 @@ class Day extends Model
     protected $fillable=['start_time', 'end_time', 'date'];
 
     /**
-     * The roles that belong to the Day
+     * The tickets that belong to the Day
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function tickets()
     {
-        return $this->belongsToMany(Ticket::class, 'role_user_table', 'user_id', 'role_id');
+        return $this->belongsToMany(Ticket::class, 'days_tickets_connection', 'day_id', 'ticket_id');
     }
 
 }

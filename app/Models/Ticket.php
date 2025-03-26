@@ -19,12 +19,12 @@ class Ticket extends Model
     }
 
     /**
-     * The roles that belong to the Ticket
+     * The days that belong to the Ticket
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function days()
     {
-        return $this->belongsToMany(Day::class, 'days_tickets_connection');
+        return $this->belongsToMany(Day::class, 'days_tickets_connections', 'ticket_id', 'day_id');
     }
 }
