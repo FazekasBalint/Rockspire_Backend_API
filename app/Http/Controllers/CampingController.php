@@ -42,13 +42,16 @@ class CampingController extends Controller
      */
     public function update(StoreCampingRequest $request, Camping $camping)
     {
-        $camping = Camping::findOrFail($camping);
-        $camping->update($request->validated());
+        if ($camping->update($request->validated())) {
+            return response()->json([
+                'message' => 'Kemping frissítése sikeres.',
+                'camping' => $camping,
+            ], 200);
+        }
 
         return response()->json([
-            'message' => 'Camping updated successfully!',
-            'camping' => $camping,
-        ]);
+            'message' => 'Hiba történt a kemping frissítése során.',
+        ], 500);
     }
 
     /**

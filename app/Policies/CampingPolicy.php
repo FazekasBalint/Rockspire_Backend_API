@@ -37,7 +37,7 @@ class CampingPolicy
      */
     public function update(User $user, Camping $camping): bool
     {
-        return false;
+        return $user->is_admin;
     }
 
     /**

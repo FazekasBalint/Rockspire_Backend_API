@@ -50,7 +50,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
 
     // Camping
     Route::post('/campings', [CampingController::class, 'store']);
-    Route::put('/campings/{id}', [CampingController::class, 'update']);
+    Route::patch('/campings/{camping}', [CampingController::class, 'update']);
     Route::delete('/campings/{id}', [CampingController::class, 'destroy']);
 
 
@@ -63,7 +63,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
 
     //Tickets
     Route::post('/tickets', [TicketController::class, 'store']);
-    Route::put('/tickets/{id}', [TicketController::class, 'update']);
+    Route::patch('/tickets/{ticket}', [TicketController::class, 'update']);
     Route::delete('/tickets/{id}', [TicketController::class, 'destroy']);
 
 

@@ -22,9 +22,9 @@ class UpdateDayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_time' => 'sometimes|date_format:H:i',
-            'end_time' => 'sometimes|date_format:H:i|after:start_time',
-            'date' => 'sometimes|date|after_or_equal:today',
+            'start_time' => 'date_format:H:i',
+            'end_time' => 'date_format:H:i|after:start_time',
+            'date' => 'date|after_or_equal:today',
         ];
     }
 }

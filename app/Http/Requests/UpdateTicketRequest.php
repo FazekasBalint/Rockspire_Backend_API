@@ -25,6 +25,7 @@ class UpdateTicketRequest extends FormRequest
             'type' => 'string|max:255',
             'price' => 'numeric|min:0',
             'availability' => 'integer|min:0',
+            'description'=>'nullable|string'
         ];
     }
 }

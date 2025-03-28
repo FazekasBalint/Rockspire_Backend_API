@@ -13,8 +13,24 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets=Ticket::all();
-        return response()->json($tickets);
+        $tickets = Ticket::with('days')->get();
+
+        $ticketsData = $tickets->map(function ($ticket) {
+            return [
+                'id' => $ticket->id,
+                'type' => $ticket->type,
+                'availability' => $ticket->availability,
+                'price' => $ticket->price,
+                'description' => $ticket->description,
+                'days' => $ticket->days->map(function ($day) {
+                    return [
+                        'id' => $day->id,
+                        'date' => $day->date,
+                    ];
+                }),
+            ];
+        });
+        return response()->json($ticketsData);
     }
 
     /**
@@ -53,9 +69,8 @@ class TicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTicketRequest $request, Ticket $id)
+    public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        $ticket = Ticket::findOrFail($id);
         $ticket->update($request->validated());
         return response()->json(['message' => 'Ticket updated successfully', 'ticket' => $ticket]);
     }

@@ -37,7 +37,7 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket): bool
     {
-        return false;
+        return $user->is_admin;
     }
 
     /**

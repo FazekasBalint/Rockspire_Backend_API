@@ -22,12 +22,12 @@ class UpdateBandRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255',
-            'image_url' => 'sometimes|url',
-            'logo_url' => 'sometimes|url',
-            'description' => 'sometimes|string',
-            'day_id' => 'sometimes|exists:days,id',
-            'duration' => 'sometimes|date_format:H:i:s',
+            'name' => 'string|max:255',
+            'image_url' => 'url',
+            'logo_url' => 'url',
+            'description' => 'string',
+            'day_id' => 'exists:days,id',
+            'duration' => 'date_format:H:i:s',
         ];
     }
 }

@@ -22,9 +22,9 @@ class StoreCampingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'availability' => 'required|integer|min:0',
+            'type' => 'nullable|string|max:255',
+            'price' => 'nullable|numeric|min:0',
+            'availability' => 'nullable|integer|min:0',
             'description' => 'nullable|string',
         ];
     }
