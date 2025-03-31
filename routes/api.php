@@ -76,6 +76,6 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     //Bands
     Route::post('/bands', [BandController::class, 'store']);
     Route::put('/bands/{id}', [BandController::class, 'update']);
-    Route::delete('/bands/{id}', [BandController::class, 'destroy']);
+    Route::delete('/bands/{band}', [BandController::class, 'destroy']);
 });
 

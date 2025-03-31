@@ -13,7 +13,8 @@ class BandController extends Controller
      */
     public function index()
     {
-        return  response()->json(Band::all());
+        $bands=Band::with('days')->get();
+        return response()->json($bands);
     }
 
     /**
@@ -34,7 +35,8 @@ class BandController extends Controller
      */
     public function show(Band $band)
     {
-        return response()->json(Band::findOrFail($band));
+        $band->load('days');
+        return response()->json($band);
     }
 
     /**

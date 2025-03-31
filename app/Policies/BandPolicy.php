@@ -45,7 +45,7 @@ class BandPolicy
      */
     public function delete(User $user, Band $band): bool
     {
-        return false;
+        return $user->is_admin;
     }
 
     /**

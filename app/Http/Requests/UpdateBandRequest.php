@@ -27,7 +27,6 @@ class UpdateBandRequest extends FormRequest
             'logo_url' => 'url',
             'description' => 'string',
             'day_id' => 'exists:days,id',
-            'duration' => 'date_format:H:i:s',
         ];
     }
 }
