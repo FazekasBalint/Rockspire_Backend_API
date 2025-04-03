@@ -44,7 +44,6 @@ class BandController extends Controller
      */
     public function update(UpdateBandRequest $request, Band $band)
     {
-        $band = Band::findOrFail($band);
         $band->update($request->validated());
 
         return response()->json([

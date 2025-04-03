@@ -26,6 +26,7 @@ class StoreTicketRequest extends FormRequest
             'price' => 'required|numeric|min:0',
             'availability' => 'required|integer|min:0',
             'description' => 'nullable|string',
+            'day_id' => 'required|exists:days,id'
         ];
     }
 }

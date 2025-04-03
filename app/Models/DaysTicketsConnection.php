@@ -12,6 +12,6 @@ class DaysTicketsConnection extends Model
 
     protected $table='days_tickets_connection';
 
-    protected $fillable=['name','date'];
+    protected $fillable = ['ticket_id', 'day_id'];
 
 }
