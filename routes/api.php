@@ -26,7 +26,7 @@ Route::get('/campings/{id}', [CampingController::class, 'show']);
 Route::get('/tickets', [TicketController::class, 'index']);
 
 Route::get('/bands', [BandController::class, 'index']);
-Route::get('/bands/{id}', [BandController::class, 'show']);
+Route::get('/bands/{band}', [BandController::class, 'show']);
 
 
 //Autenthication
@@ -76,6 +76,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     //Bands
     Route::post('/bands', [BandController::class, 'store']);
     Route::put('/bands/{id}', [BandController::class, 'update']);
+    Route::patch('/bands/{band}', [BandController::class, 'update']);
     Route::delete('/bands/{band}', [BandController::class, 'destroy']);
 });
 
