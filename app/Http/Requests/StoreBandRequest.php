@@ -27,6 +27,8 @@ class StoreBandRequest extends FormRequest
             'logo_url' => 'required|url',
             'description' => 'required|string',
             'day_id' => 'required|exists:days,id',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
         ];
     }
 }
