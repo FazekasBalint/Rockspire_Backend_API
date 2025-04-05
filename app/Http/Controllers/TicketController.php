@@ -33,13 +33,6 @@ class TicketController extends Controller
         return response()->json($ticketsData);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -55,27 +48,17 @@ class TicketController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Ticket $ticket)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Ticket $ticket)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
         $ticket->update($request->validated());
+
+        if ($request->has('day_id')) {
+            $dayId = $request->input('day_id');
+            $ticket->days()->sync([$dayId]);
+        }
+
         return response()->json(['message' => 'Ticket updated successfully', 'ticket' => $ticket]);
     }
 
