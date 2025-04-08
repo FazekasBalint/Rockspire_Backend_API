@@ -27,8 +27,8 @@ class UpdateBandRequest extends FormRequest
             'logo_url' => 'url',
             'description' => 'string',
             'day_id' => 'exists:days,id',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
+            'start_time' => 'date_format:H:i',
+            'end_time' => 'date_format:H:i|after:start_time',
         ];
     }
 }
