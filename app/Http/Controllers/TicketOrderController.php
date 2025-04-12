@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTicketOrderRequest;
 use App\Http\Requests\UpdateTicketOrderRequest;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class TicketOrderController extends Controller
 {
@@ -98,5 +99,19 @@ class TicketOrderController extends Controller
         $ticketOrder->delete();
         return response()->noContent();
     }
+
+
+
+    public function getMyOrders()
+    {
+        $user = Auth::user();
+        $orders = TicketOrder::with(['tickets'])
+                    ->where('user_id', $user->id)
+                    ->get();
+        return response()->json([
+            'orders' => $orders
+        ]);
+    }
+
     }
 

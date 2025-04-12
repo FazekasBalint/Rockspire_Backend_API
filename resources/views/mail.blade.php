@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Courier New', monospace;
-            color: #fff;
+            color: white;
             margin: 0;
             padding: 0;
             text-align: center;
@@ -54,10 +54,10 @@
     <div class="container">
         <div class="headline">RockSpire Fesztivál - Üdvözlünk!</div>
         <div class="content">
-            <p>Kedves {{ $user->name }}</p>
-            <p>Köszönjük, hogy regisztráltál a RockSpire Fesztiválra! Mostantól első kézből értesülhetsz a legfrissebb információkról, fellépőkről és programokról.</p>
-            <p>A fesztivállal kapcsolatos részleteket és további tudnivalókat a weboldalunkon találod:</p>
-            <p>Ha bármilyen kérdésed van, fordulj hozzánk bizalommal!</p>
+            <p>Kedves {{ $user->name }}🤘</p>
+            <p>Üdvözlünk a <strong>RockSpire Fesztivál</strong> közösségében! Köszönjük, hogy regisztráltál  mostantól első kézből értesülhetsz a legfrissebb hírekről, fellépőkről és programokról.</p>
+            <p>A fesztivállal kapcsolatos minden részletet, jegyinformációt és további tudnivalókat megtalálsz hivatalos weboldalunkon</p>
+            <p>Ha bármilyen kérdésed van, fordulj hozzánk bizalommal! 🎸</p>
         </div>
         <div class="footer">
             {{ date('Y') }} RockSpire Fesztivál. Minden jog fenntartva.

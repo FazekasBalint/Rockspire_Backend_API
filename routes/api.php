@@ -42,6 +42,8 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
         return $request->user();
     });
 
+    Route::get('/my-ticket-orders', [TicketOrderController::class, 'getMyOrders']);
+
     // Camping Orders
     Route::get('/camping-orders', [CampingOrderController::class, 'index']);
     Route::get('/camping-orders/{id}', [CampingOrderController::class, 'show']);

@@ -19,6 +19,8 @@ class AuthController extends Controller
         $token = $user->createToken('authToken')->plainTextToken;
         $validated['password'] = bcrypt($validated['password']);
 
+        Mail::to($user->email)->send(new SendMail($user));
+
         return response()->json([
             'user' => $user,
             'token' => $token
