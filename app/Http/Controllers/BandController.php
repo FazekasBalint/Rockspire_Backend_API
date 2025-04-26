@@ -25,7 +25,7 @@ class BandController extends Controller
         $band = Band::create($request->validated());
 
         return response()->json([
-            'message' => 'Band created successfully!',
+            'message' => 'Banda sikersen hozzáadva!',
             'band' => $band,
         ], 201);
     }
@@ -47,7 +47,7 @@ class BandController extends Controller
         $band->update($request->validated());
 
         return response()->json([
-            'message' => 'Band updated successfully!',
+            'message' => 'Banda sikersen frissítve!',
             'band' => $band,
         ]);
     }
@@ -58,6 +58,6 @@ class BandController extends Controller
     public function destroy(Band $band)
     {
         $band->delete();
-        return response()->json(['message'=>'Band deleted succesfully']);
+        return response()->json(['message'=>'Banda sikeresen törölve']);
     }
 }

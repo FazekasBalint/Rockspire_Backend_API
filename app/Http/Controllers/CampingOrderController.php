@@ -27,14 +27,14 @@ class CampingOrderController extends Controller
         /** @var User $user */
         $user = Auth::user();
         if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Nem jogosult'], 401);
         }
         $validated = $request->validated();
         $order = CampingOrder::create(['user_id' => $user->id]);
         foreach ($validated['campings'] as $camping) {
             $campingItem = Camping::find($camping['camping_id']);
             if (!$campingItem) {
-                return response()->json(['message' => 'Invalid camping ID'], 400);
+                return response()->json(['message' => 'Hibás kemping ID'], 400);
             }
 
             $campingItem->availability -= $camping['quantity'];
@@ -46,7 +46,7 @@ class CampingOrderController extends Controller
             ]);
         }
         return response()->json([
-            'message' => 'Camping order created successfully',
+            'message' => 'Camping rendelés sikeresen létrehozva',
             'order' => $order
         ], 201);
     }
@@ -60,7 +60,7 @@ class CampingOrderController extends Controller
             $query->withPivot('quantity', 'totalprice');
         }])->where('user_id', $userId)->get();
         if ($campingOrders->isEmpty()) {
-            return response()->json(['message' => 'No camping orders found for this user.'], 404);
+            return response()->json(['message' => 'Nem található Camping rendelés ehhez a felhasználóhoz.'], 404);
         }
         $formattedData = $campingOrders->map(function ($order) {
             return [
@@ -94,7 +94,7 @@ class CampingOrderController extends Controller
         /** @var User $user */
         $user = Auth::user();
         if ($user->cannot('delete', $campingOrder)) {
-            return response()->json(['message' => 'You are not authorized to delete this order'], 403);
+            return response()->json(['message' => 'Nincs jogosultsága hogy törölje ezt a rendelést'], 403);
         }
 
         $campingOrder->delete();

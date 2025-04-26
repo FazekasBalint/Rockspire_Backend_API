@@ -47,9 +47,8 @@ class AuthController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        //$user->tokens()->delete();
         $user->currentAccessToken()->delete();
-        return response()->json(['message' => 'Logged out'], 200);
+        return response()->json(['message' => 'Kijelentkezve'], 200);
     }
 
 
@@ -58,7 +57,7 @@ class AuthController extends Controller
 
         $Nametext = $user->name;
         Mail::to($user->email)->send(new SendMail($Nametext));
-        return response()->json(["error" => false, "message" => "Email succesfully sent."], 200);
+        return response()->json(["error" => false, "message" => "Email sikeresen elküldve."], 200);
     }
 
 

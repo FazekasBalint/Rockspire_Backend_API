@@ -28,7 +28,7 @@ class TicketOrderController extends Controller
     {
         $user = Auth::user();
         if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Jogosulatlan'], 401);
         }
         $validated = $request->validated();
         $order = TicketOrder::create(['user_id' => $user->id]);
@@ -36,7 +36,7 @@ class TicketOrderController extends Controller
             $ticketModel = Ticket::find($ticket['ticket_id']);
 
             if (!$ticketModel) {
-                return response()->json(['message' => 'Invalid ticket ID'], 400);
+                return response()->json(['message' => 'Hibás jegy ID'], 400);
             }
 
             $ticketModel->availability -= $ticket['quantity'];
@@ -47,7 +47,7 @@ class TicketOrderController extends Controller
                 'totalprice' => $ticket['quantity'] * $ticketModel->price
             ]);
         }
-        return response()->json(['message' => 'Ticket order created successfully', 'order' => $order], 201);
+        return response()->json(['message' => 'Jegy rendelés sikeresen létrehozva', 'order' => $order], 201);
     }
 
     /**
@@ -60,7 +60,7 @@ class TicketOrderController extends Controller
         }])->where('user_id', $userId)->get();
 
         if ($ticketOrders->isEmpty()) {
-            return response()->json(['message' => 'No ticket orders found for this user.'], 404);
+            return response()->json(['message' => 'Nem található jegy rendelés ehhez a felhasználóhoz.'], 404);
         }
 
         $formattedData = $ticketOrders->map(function ($order) {
@@ -93,7 +93,7 @@ class TicketOrderController extends Controller
         /** @var User $user */
         $user = Auth::user();
         if ($user->cannot('delete', $ticketOrder)) {
-            return response()->json(['message' => 'You are not authorized to delete this order'], 403);
+            return response()->json(['message' => 'Nincs jogosultsága hogy törölje ezt a rendelést'], 403);
         }
 
         $ticketOrder->delete();

@@ -24,7 +24,7 @@ class CampingController extends Controller
         $camping = Camping::create($request->validated());
 
         return response()->json([
-            'message' => 'Camping created successfully!',
+            'message' => 'Camping sikeresen létrehozva!',
             'camping' => $camping,
         ], 201);
     }
@@ -61,12 +61,12 @@ class CampingController extends Controller
     {
         $camping = Camping::find($id);
         if (!$camping) {
-            return response()->json(['message' => 'Camping not found!'], 404);
+            return response()->json(['message' => 'Camping nem található!'], 404);
         }
         foreach ($camping->orders as $order) {
             $order->delete();
         }
         $camping->delete();
-        return response()->json(['message' => 'Camping and related orders deleted']);
+        return response()->json(['message' => 'Camping és hozzá tartozó rendelések törölve']);
     }
 }

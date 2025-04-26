@@ -23,7 +23,7 @@ class DayController extends Controller
     public function store(StoreDayRequest $request)
     {
         $day=Day::create($request->validated());
-        return response()->json(['message'=>'Day created succesfully','ticket'=>$day],201);
+        return response()->json(['message'=>'Nap sikeresen létrehozva','ticket'=>$day],201);
 
     }
 
@@ -43,7 +43,7 @@ class DayController extends Controller
     {
         $day=Day::findOrFail($request);
         $day->update($request->validated());
-        return response()->json(['message'=>'Day updated succesfully','day'=>$day]);
+        return response()->json(['message'=>'Nap sikeresen frissítve','day'=>$day]);
     }
 
     /**
@@ -53,6 +53,6 @@ class DayController extends Controller
     {
         $day=Day::findOrFail($day);
         $day->delete();
-        return response()->json(['message'=>'Day has been deleted succesfully']);
+        return response()->json(['message'=>'Nap sikeresen törölve']);
     }
 }
